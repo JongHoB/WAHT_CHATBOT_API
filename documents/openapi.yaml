@@ -1,0 +1,127 @@
+openapi: 3.0.3
+info:
+  title: Discord Chat bot API
+  description: 디스코드 챗봇에게 WAHT app 데이터를 제공해주는 API
+  contact:
+    email: ekgus3771@gmail.com
+  version: 1.0.0
+servers:
+  - url: http://localhost:8000
+tags:
+  - name: events
+    description: request about events resource
+  - name: testing
+    description: making docs about apis
+paths:
+  /events/detail:
+    get:
+      tags:
+        - events
+      summary: 특정 이벤트의 데이터를 response 합니다
+      description: 쿼리를 통해 특정 이벤트의 데이터를 response 합니다
+      operationId: get event
+      parameters:
+        - name: eventName
+          in: query
+          description: 특정 이벤트 이름
+          required: true
+          explode: true
+          schema:
+            type: string
+            default: null
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Detail'
+        '400':
+          description: '[KEY_ERROR] URL에 query를 포함하지 않은 채로 요청이 오면 400 응답이 보내집니다'
+        '404':
+          description: '[NOT_FOUND] 해당 이벤트 이름을 가진 이벤트가 없을때 404 응답이 보내집니다'
+        '500':
+          description: '[DATABASE_ERROR] 서버 맛탱이 간거'
+  /events/list:
+    get:
+      tags:
+        - events
+      summary: 이벤트 리스트를 response 합니다
+      description: 특정 NFT 프로젝트에 해당하는 이벤트 리스트를 response 합니다
+      operationId: get events List
+      parameters:
+        - name: projectName
+          in: query
+          description: 특정 NFT 프로젝트 이름
+          required: true
+          explode: true
+          schema:
+            type: string
+            default: null
+        - name: timestamp
+          in: query
+          description: 요청 보내는 현재 시간
+          required: true
+          explode: true
+          schema:
+            type: string
+            default: null
+      responses:
+        '200':
+          description: 성공
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/List'
+        '400':
+          description: '[KEY_ERROR] URL에 query를 포함하지 않은 채로 요청이 오면 400 응답이 보내집니다'
+        '404':
+          description: '[NOT_FOUND] 해당 이벤트 이름을 가진 이벤트가 없을때 404 응답이 보내집니다'
+        '500':
+          description: '[DATABASE_ERROR] 서버 맛탱이 간거'
+
+components:
+  schemas:
+    Detail:
+      type: object
+      properties:
+        event_name:
+          type: string
+          example: event name
+        host_name:
+          type: string
+          example: host name
+        place:
+          type: string
+          example: place address
+        description:
+          type: string
+          example: event description
+        custom_info:
+          type: string
+          example: custom info
+        start_time:
+          type: string
+          example: '2023-02-24 01:40:00'
+        end_time:
+          type: string
+          example: '2023-03-24 03:50:00'
+    List:
+      type: object
+      properties:
+        host_name:
+          type: string
+          example: host name
+        event_name:
+          type: string
+          example: event name
+        start_time:
+          type: string
+          example: '2023-02-24 01:40:00'
+        end_time:
+          type: string
+          example: '2023-03-24 03:50:00'
