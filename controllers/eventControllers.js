@@ -27,15 +27,15 @@ const getEventList = async (req, res) => {
 
 const getEventDetail = async (req, res) => {
   try {
-    const eventName = req.query.eventName;
+    const eventId = req.query.eventId;
 
-    if (!eventName) {
+    if (!eventId) {
       const error = new Error('KEY_ERROR');
       error.statusCode = 400;
       throw error;
     }
 
-    const data = await eventService.getEventDetail(eventName);
+    const data = await eventService.getEventDetail(eventId);
 
     return res.status(200).json(data);
   } catch (err) {

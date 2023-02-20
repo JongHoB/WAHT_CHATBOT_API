@@ -19,9 +19,9 @@ const getEventList = async (smartContractAddresses, timestamp) => {
   }
 };
 
-const getEventDetail = async (eventName) => {
+const getEventDetail = async (eventId) => {
   try {
-    const result = await eventDao.getEventDetail(eventName);
+    const result = await eventDao.getEventDetail(eventId);
 
     if (result.length === 0) {
       const error = new Error('NOT_FOUND');

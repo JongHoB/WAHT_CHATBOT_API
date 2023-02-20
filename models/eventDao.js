@@ -29,7 +29,7 @@ const getEventList = async (smartContractAddresses, timestamp) => {
   }
 };
 
-const getEventDetail = async (eventName) => {
+const getEventDetail = async (eventId) => {
   try {
     return await appDataSource.query(
       `
@@ -49,7 +49,7 @@ const getEventDetail = async (eventName) => {
         e.host_wallet_address = u.wallet_address
     WHERE
         e.id = ?`,
-      [eventName]
+      [eventId]
     );
   } catch (err) {
     log.error(err);
