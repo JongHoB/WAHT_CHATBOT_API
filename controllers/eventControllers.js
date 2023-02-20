@@ -3,16 +3,22 @@ const log = require('../config/logger');
 
 const getEventList = async (req, res) => {
   try {
-    const { projectName, timestamp } = req.query;
+    const { timestamp } = req.query;
+    const smartContractAddresses = req.body;
 
-    if (!projectName || !timestamp) {
+    console.log(timestamp, smartContractAddresses);
+
+    if (!smartContractAddresses || !timestamp) {
       const error = new Error('KEY_ERROR');
       error.statusCode = 400;
       throw error;
     }
 
-    const list = await eventService.getEventList(projectName, timestamp);
-    return res.status(200).json(list);
+    const list = await eventService.getEventList(
+      smartContractAddresses,
+      timestamp
+    );
+    return res.status(200).json({ data: list });
   } catch (err) {
     log.error(err);
     return res.status(err.statusCode || 500).json(err.message);

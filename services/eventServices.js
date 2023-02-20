@@ -1,8 +1,11 @@
 const eventDao = require('../models/eventDao');
 
-const getEventList = async (projectName, timestamp) => {
+const getEventList = async (smartContractAddresses, timestamp) => {
   try {
-    const result = await eventDao.getEventList(projectName, timestamp);
+    const result = await eventDao.getEventList(
+      smartContractAddresses,
+      timestamp
+    );
 
     if (result.length === 0) {
       const error = new Error('NOT_FOUND');
