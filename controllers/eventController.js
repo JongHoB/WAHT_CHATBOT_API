@@ -1,23 +1,19 @@
-const eventService = require('../services/eventServices');
+const eventService = require('../services/eventService');
 const log = require('../config/logger');
 
 const getEventList = async (req, res) => {
   try {
+    const discordId = req.query.id;
     const { timestamp } = req.query;
-    const smartContractAddresses = req.body;
 
-    console.log(timestamp, smartContractAddresses);
-
-    if (!smartContractAddresses || !timestamp) {
+    if (!discordId || !timestamp) {
       const error = new Error('KEY_ERROR');
       error.statusCode = 400;
       throw error;
     }
 
-    const list = await eventService.getEventList(
-      smartContractAddresses,
-      timestamp
-    );
+    const list = await eventService.getEventList(discordId, timestamp);
+
     return res.status(200).json({ data: list });
   } catch (err) {
     log.error(err);

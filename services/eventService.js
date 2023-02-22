@@ -1,7 +1,11 @@
+const checkDao = require('../models/checkDao');
 const eventDao = require('../models/eventDao');
 
-const getEventList = async (smartContractAddresses, timestamp) => {
+const getEventList = async (discordId, timestamp) => {
   try {
+    const getNFTs = await checkDao.getSmartContractAddresses(discordId);
+    const smartContractAddresses = getNFTs.map((x) => x.sca);
+
     const result = await eventDao.getEventList(
       smartContractAddresses,
       timestamp

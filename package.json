@@ -4,20 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gaeung/metabon-chatbot-api.git"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/gaeung/metabon-chatbot-api/issues"
-  },
-  "homepage": "https://github.com/gaeung/metabon-chatbot-api#readme",
   "dependencies": {
+    "alchemy-sdk": "^2.4.3",
     "app-root-path": "^3.1.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
