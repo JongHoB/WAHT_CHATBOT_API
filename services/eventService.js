@@ -23,9 +23,10 @@ const getEventList = async (discordId, timestamp) => {
   }
 };
 
-const getEventDetail = async (eventId) => {
+const getEventDetail = async (id, eventId) => {
   try {
     const result = await eventDao.getEventDetail(eventId);
+    const check = await eventDao.checkEvent(id, eventId);
 
     if (result.length === 0) {
       const error = new Error('NOT_FOUND');
@@ -33,7 +34,7 @@ const getEventDetail = async (eventId) => {
       throw error;
     }
 
-    return result;
+    return { result, check };
   } catch (err) {
     throw err;
   }
