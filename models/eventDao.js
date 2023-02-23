@@ -82,7 +82,36 @@ const getEventDetail = async (eventId) => {
   }
 };
 
+const checkEvent = async (id, eventId) => {
+  try {
+    const [check] = await appDataSource.query(
+      `
+      SELECT EXISTS(
+        SELECT
+          r.wallet_address,
+          r.event_id
+        FROM
+          RSVP r
+        INNER JOIN
+          Discord_User AS du 
+        ON
+          du.wallet_address=r.wallet_address
+        WHERE
+          du.discord_id=? AND r.event_id=?) AS ch;
+      `,
+      [id, eventId]
+    );
+    return !!parseInt(check.ch);
+  } catch (err) {
+    log.error(err);
+    const error = new Error('DATABASE_ERROR');
+    error.statusCode = 500;
+    throw error;
+  }
+};
+
 module.exports = {
   getEventList,
   getEventDetail,
+  checkEvent,
 };

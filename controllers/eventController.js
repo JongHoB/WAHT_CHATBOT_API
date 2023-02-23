@@ -24,6 +24,7 @@ const getEventList = async (req, res) => {
 const getEventDetail = async (req, res) => {
   try {
     const eventId = req.query.eventId;
+    const id = req.query.id;
 
     if (!eventId) {
       const error = new Error('KEY_ERROR');
@@ -31,7 +32,7 @@ const getEventDetail = async (req, res) => {
       throw error;
     }
 
-    const data = await eventService.getEventDetail(eventId);
+    const data = await eventService.getEventDetail(id, eventId);
 
     return res.status(200).json(data);
   } catch (err) {
