@@ -81,9 +81,46 @@ const createDiscordNFT = async (info) => {
   }
 };
 
+const getOldNFTs = async (discordId) => {
+  try {
+    const [walletAddress] = await appDataSource.query(
+      `
+        SELECT
+          wallet_address        AS wa
+        FROM
+          Discord_User
+        WHERE
+          discord_id = ?
+      `,
+      [discordId]
+    );
+
+    const oldNFTs = await appDataSource.query(
+      `
+        SELECT
+          smart_contract_address,
+          token_id
+        FROM
+          Discord_NFT
+        WHERE
+          User_wallet_address = ?
+      
+      `,
+      [walletAddress]
+    );
+    return { walletAddress, oldNFTs };
+  } catch (err) {
+    log.error(err);
+    const error = new Error('DATABASE_ERROR');
+    error.statusCode = 500;
+    throw error;
+  }
+};
+
 module.exports = {
   checkDiscordUser,
   createDiscordUser,
   getSmartContractAddresses,
   createDiscordNFT,
+  getOldNFTs,
 };

@@ -48,7 +48,27 @@ const createDiscordUser = async (req, res) => {
   }
 };
 
+const updateDiscordUser = async (req, res) => {
+  try {
+    const discordId = req.query.id;
+
+    if (!discordId) {
+      const error = new Error('KEY_ERROR');
+      error.statusCode = 400;
+      throw error;
+    }
+
+    await checkService.updateDiscordUser(discordId);
+
+    return res.status(200).json({ message: 'Discord User Updated!' });
+  } catch (err) {
+    log.error(err);
+    return res.status(err.statusCode || 500).json(err.message);
+  }
+};
+
 module.exports = {
   checkDiscordUser,
   createDiscordUser,
+  updateDiscordUser,
 };
