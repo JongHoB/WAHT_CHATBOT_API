@@ -5,7 +5,6 @@ const getQrCode = async (req, res) => {
   try {
     const discordId = req.query.id;
     const { eventId } = req.query;
-    console.log(discordId, eventId);
 
     if (!discordId || !eventId) {
       const error = new Error('KEY_ERROR');
@@ -26,13 +25,13 @@ const postRsvp = async (req, res) => {
   try {
     const discordId = req.query.id;
     const { eventId } = req.query;
+
     if (!discordId || !eventId) {
       const error = new Error('KEY_ERROR');
       error.statusCode = 400;
       throw error;
     }
 
-    console.log(discordId, eventId);
     await rsvpService.postRsvp(discordId, eventId);
 
     return res.status(200).json({ message: 'posted' });
@@ -42,4 +41,7 @@ const postRsvp = async (req, res) => {
   }
 };
 
-module.exports = { postRsvp, getQrCode };
+module.exports = {
+  postRsvp,
+  getQrCode,
+};

@@ -38,7 +38,7 @@ const getEventList = async (smartContractAddresses, timestamp) => {
         AND (e.capacity = -1 OR (e.capacity - COALESCE(rsvp_count, 0)) > 0)
         ORDER BY 
           e.start_date_time
-        LIMIT 25 -- Discord chatbot은 25개 이상 보여주지 못한다
+        LIMIT 25
       `,
       [timestamp, smartContractAddresses]
     );
@@ -86,18 +86,23 @@ const checkEvent = async (id, eventId) => {
   try {
     const [check] = await appDataSource.query(
       `
-      SELECT EXISTS(
-        SELECT
-          r.wallet_address,
-          r.event_id
-        FROM
-          RSVP r
-        INNER JOIN
-          Discord_User AS du 
-        ON
-          du.wallet_address=r.wallet_address
-        WHERE
-          du.discord_id=? AND r.event_id=?) AS ch;
+        SELECT EXISTS
+          (
+            SELECT
+              r.wallet_address,
+              r.event_id
+            FROM
+              RSVP r
+            INNER JOIN
+              Discord_User            AS du 
+            ON
+              du.wallet_address = r.wallet_address
+            WHERE
+              du.discord_id = ? 
+            AND 
+              r.event_id = ?
+          ) 
+        AS ch;
       `,
       [id, eventId]
     );

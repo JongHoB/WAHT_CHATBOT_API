@@ -5,18 +5,14 @@ const checkDiscordUser = async (req, res) => {
   try {
     const discordId = req.query.id;
 
-    // discordId가 안 들어오면 분기 처리
     if (!discordId) {
       const error = new Error('KEY_ERROR');
       error.statusCode = 400;
       throw error;
     }
 
-    // discordId로 Discord user check
     const check = await checkService.checkDiscordUser(discordId);
 
-    // 등록된 user가 없으면 401 보냄
-    // chatbot server에서 다시 axios
     if (!check) {
       return res.status(401).json({ message: 'Need to create user' });
     }
