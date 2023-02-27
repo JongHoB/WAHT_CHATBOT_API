@@ -9,7 +9,7 @@ const createDiscordUser = async (discordId, walletAddress) => {
   await checkDao.createDiscordUser(discordId, walletAddress);
 
   console.log('walletAddress', walletAddress);
-  const nfts = await getNFTs('0xd1B948b9eB3D433d780b9E699f5494429e4CA51D');
+  const nfts = await getNFTs(walletAddress);
 
   let info;
   if (nfts.totalCount) {
@@ -25,4 +25,42 @@ const createDiscordUser = async (discordId, walletAddress) => {
   return;
 };
 
-module.exports = { checkDiscordUser, createDiscordUser };
+const updateDiscordUser = async (discordId) => {
+  const oldNFTs = await checkDao.getOldNFTs(discordId);
+  const newNFTs = await getNFTs(`${oldNFTs.walletAddress.wa}`);
+
+  const walletAddress = oldNFTs.walletAddress.wa;
+
+  let newNFTsArr = newNFTs.ownedNfts.map((x) => {
+    return [walletAddress, x.contract.address, x.tokenId];
+  });
+
+  let oldNFTsArr = oldNFTs.oldNFTs.map((x) => {
+    return [walletAddress, x.sca, x.ti];
+  });
+
+  const addedNFTs = newNFTsArr.filter(
+    (item) =>
+      oldNFTsArr.findIndex((x) => x[0] === item[0] && x[1] === item[1]) === -1
+  );
+  const removedNFTs = oldNFTsArr.filter(
+    (item) =>
+      newNFTsArr.findIndex((x) => x[0] === item[0] && x[1] === item[1]) === -1
+  );
+
+  if (addedNFTs.length > 0) {
+    await checkDao.insertNewDiscordNFT(addedNFTs);
+  }
+
+  if (removedNFTs.length > 0) {
+    await checkDao.deleteOldDiscordNFT(removedNFTs);
+  }
+
+  return;
+};
+
+module.exports = {
+  checkDiscordUser,
+  createDiscordUser,
+  updateDiscordUser,
+};
