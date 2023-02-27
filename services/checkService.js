@@ -8,7 +8,6 @@ const checkDiscordUser = async (discordId) => {
 const createDiscordUser = async (discordId, walletAddress) => {
   await checkDao.createDiscordUser(discordId, walletAddress);
 
-  console.log('walletAddress', walletAddress);
   const nfts = await getNFTs(walletAddress);
 
   let info;
@@ -19,8 +18,6 @@ const createDiscordUser = async (discordId, walletAddress) => {
   }
 
   await checkDao.createDiscordNFT(info);
-
-  console.log(info);
 
   return;
 };
@@ -43,6 +40,7 @@ const updateDiscordUser = async (discordId) => {
     (item) =>
       oldNFTsArr.findIndex((x) => x[0] === item[0] && x[1] === item[1]) === -1
   );
+
   const removedNFTs = oldNFTsArr.filter(
     (item) =>
       newNFTsArr.findIndex((x) => x[0] === item[0] && x[1] === item[1]) === -1
