@@ -5,12 +5,16 @@ const checkDiscordUser = async (discordId) => {
   try {
     const [result] = await appDataSource.query(
       `
-        SELECT EXISTS (
+        SELECT EXISTS 
+        (
           SELECT
             wallet_address
-          FROM Discord_User
-          WHERE discord_id = ?
-        ) AS registerd
+          FROM 
+            Discord_User
+          WHERE 
+            discord_id = ?
+        ) 
+        AS registerd
       `,
       [discordId]
     );
@@ -27,10 +31,17 @@ const createDiscordUser = async (discordId, walletAddress) => {
   try {
     return appDataSource.query(
       `
-        INSERT INTO Discord_User
-          (discord_id, wallet_address)
+        INSERT INTO 
+          Discord_User
+          (
+            discord_id, 
+            wallet_address
+          )
         VALUES
-          (?, ?)
+          (
+            ?, 
+            ?
+          )
       `,
       [discordId, walletAddress]
     );
@@ -47,10 +58,10 @@ const getSmartContractAddresses = async (discordId) => {
     return appDataSource.query(
       `
         SELECT
-          smart_contract_address  AS sca
+          smart_contract_address      AS sca
         FROM 
           Discord_NFT dn
-        INNER JOIN Discord_User du ON du.wallet_address = dn.user_wallet_address
+        INNER JOIN Discord_User du    ON du.wallet_address = dn.user_wallet_address
         WHERE du.discord_id = ?
       `,
       [discordId]
@@ -67,8 +78,13 @@ const createDiscordNFT = async (info) => {
   try {
     return appDataSource.query(
       `
-      INSERT INTO Discord_NFT
-        (user_wallet_address, smart_contract_address, token_id)
+      INSERT INTO 
+        Discord_NFT
+        (
+          user_wallet_address, 
+          smart_contract_address, 
+          token_id
+        )
       VALUES ?
       `,
       [info]
@@ -98,15 +114,15 @@ const getOldNFTs = async (discordId) => {
     const oldNFTs = await appDataSource.query(
       `
         SELECT
-          smart_contract_address,
-          token_id
+          smart_contract_address    AS sca,
+          token_id                  AS ti
         FROM
           Discord_NFT
         WHERE
           User_wallet_address = ?
       
       `,
-      [walletAddress]
+      [walletAddress.wa]
     );
     return { walletAddress, oldNFTs };
   } catch (err) {
@@ -117,10 +133,85 @@ const getOldNFTs = async (discordId) => {
   }
 };
 
+const insertNewDiscordNFT = async (addedNFTs) => {
+  try {
+    const queryRunner = appDataSource.createQueryRunner();
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    await queryRunner.query(
+      `
+      INSERT INTO Discord_NFT 
+        (
+          user_wallet_address, 
+          smart_contract_address, 
+          token_id
+        )
+      VALUES ?
+      `,
+      [addedNFTs]
+    );
+
+    await queryRunner.commitTransaction();
+
+    return;
+  } catch (err) {
+    log.error(err);
+    const error = new Error('DATABASE_ERROR');
+    error.statusCode = 500;
+
+    await queryRunner.rollbackTransaction();
+
+    throw error;
+  } finally {
+    await queryRunner.release();
+  }
+};
+
+const deleteOldDiscordNFT = async (removedNFTs) => {
+  try {
+    const queryRunner = appDataSource.createQueryRunner();
+
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    await queryRunner.query(
+      `
+        DELETE FROM 
+          Discord_NFT 
+        WHERE 
+        (
+          user_wallet_address,
+          smart_contract_address,
+          token_id
+        )
+        IN (?)
+      `,
+      [removedNFTs]
+    );
+    await queryRunner.commitTransaction();
+
+    return;
+  } catch (err) {
+    log.error(err);
+    const error = new Error('DATABASE_ERROR');
+    error.statusCode = 500;
+
+    await queryRunner.rollbackTransaction();
+
+    throw error;
+  } finally {
+    await queryRunner.release();
+  }
+};
+
 module.exports = {
   checkDiscordUser,
   createDiscordUser,
   getSmartContractAddresses,
   createDiscordNFT,
   getOldNFTs,
+  insertNewDiscordNFT,
+  deleteOldDiscordNFT,
 };
