@@ -1,4 +1,5 @@
 require('dotenv').config();
+
 const { createApp } = require('./app');
 const appDataSource = require('./models/dataSource');
 const log = require('./config/logger');

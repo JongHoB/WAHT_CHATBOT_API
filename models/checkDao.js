@@ -18,6 +18,7 @@ const checkDiscordUser = async (discordId) => {
       `,
       [discordId]
     );
+
     return !!parseInt(result.registerd);
   } catch (err) {
     log.error(err);
@@ -124,6 +125,7 @@ const getOldNFTs = async (discordId) => {
       `,
       [walletAddress.wa]
     );
+
     return { walletAddress, oldNFTs };
   } catch (err) {
     log.error(err);
@@ -134,9 +136,8 @@ const getOldNFTs = async (discordId) => {
 };
 
 const insertNewDiscordNFT = async (addedNFTs) => {
+  const queryRunner = appDataSource.createQueryRunner();
   try {
-    const queryRunner = appDataSource.createQueryRunner();
-
     await queryRunner.connect();
     await queryRunner.startTransaction();
 
@@ -170,9 +171,8 @@ const insertNewDiscordNFT = async (addedNFTs) => {
 };
 
 const deleteOldDiscordNFT = async (removedNFTs) => {
+  const queryRunner = appDataSource.createQueryRunner();
   try {
-    const queryRunner = appDataSource.createQueryRunner();
-
     await queryRunner.connect();
     await queryRunner.startTransaction();
 
@@ -190,6 +190,7 @@ const deleteOldDiscordNFT = async (removedNFTs) => {
       `,
       [removedNFTs]
     );
+
     await queryRunner.commitTransaction();
 
     return;

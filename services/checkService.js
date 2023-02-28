@@ -24,27 +24,46 @@ const createDiscordUser = async (discordId, walletAddress) => {
 
 const updateDiscordUser = async (discordId) => {
   const oldNFTs = await checkDao.getOldNFTs(discordId);
-  const newNFTs = await getNFTs(`${oldNFTs.walletAddress.wa}`);
 
   const walletAddress = oldNFTs.walletAddress.wa;
 
-  let newNFTsArr = newNFTs.ownedNfts.map((x) => {
-    return [walletAddress, x.contract.address, x.tokenId];
-  });
+  const newNFTs = await getNFTs(walletAddress);
 
-  let oldNFTsArr = oldNFTs.oldNFTs.map((x) => {
-    return [walletAddress, x.sca, x.ti];
-  });
+  let newNFTsMap = newNFTs.ownedNfts.reduce((acc, cur) => {
+    acc.set(walletAddress + '_' + cur.contract.address + '_' + cur.tokenId, 1);
+    return acc;
+  }, new Map());
 
-  const addedNFTs = newNFTsArr.filter(
-    (item) =>
-      oldNFTsArr.findIndex((x) => x[0] === item[0] && x[1] === item[1]) === -1
-  );
+  let oldNFTsMap = oldNFTs.oldNFTs.reduce((acc, cur) => {
+    acc.set(walletAddress + '_' + cur.sca + '_' + cur.ti, 1);
+    return acc;
+  }, new Map());
 
-  const removedNFTs = oldNFTsArr.filter(
-    (item) =>
-      newNFTsArr.findIndex((x) => x[0] === item[0] && x[1] === item[1]) === -1
-  );
+  const addedNFTsMap = new Map(newNFTsMap);
+  for (const [key, value] of oldNFTsMap) {
+    if (addedNFTsMap.has(key)) {
+      addedNFTsMap.delete(key);
+    }
+  }
+
+  let addedNFTs = [];
+  for (const [key, value] of addedNFTsMap) {
+    let temp = key.split('_');
+    addedNFTs.push([temp[0], temp[1], temp[2]]);
+  }
+
+  const removedNFTsMap = new Map(oldNFTsMap);
+  for (const [key, value] of newNFTsMap) {
+    if (removedNFTsMap.has(key)) {
+      removedNFTsMap.delete(key);
+    }
+  }
+
+  let removedNFTs = [];
+  for (const [key, value] of removedNFTsMap) {
+    let temp = key.split('_');
+    removedNFTs.push([temp[0], temp[1], temp[2]]);
+  }
 
   if (addedNFTs.length > 0) {
     await checkDao.insertNewDiscordNFT(addedNFTs);

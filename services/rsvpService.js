@@ -5,11 +5,7 @@ const getQrCode = async (discordId, eventId) => {
 };
 
 const postRsvp = async (discordId, eventId) => {
-  try {
-    return await rsvpDao.postRsvp(discordId, eventId);
-  } catch (err) {
-    throw err;
-  }
+  return await rsvpDao.postRsvp(discordId, eventId);
 };
 
 const deleteRsvp = async (discordId, eventId) => {

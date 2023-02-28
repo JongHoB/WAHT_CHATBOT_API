@@ -6,30 +6,31 @@ const getEventList = async (smartContractAddresses, timestamp) => {
     return await appDataSource.query(
       `
         SELECT
-          u.name              AS host_name,
-          e.id                AS event_id,
-          e.name              AS event_name,
-          e.start_date_time   AS start_time,
-          e.end_date_time     AS end_time,
+          u.name                  AS host_name,
+          e.id                    AS event_id,
+          e.name                  AS event_name,
+          e.start_date_time       AS start_time,
+          e.end_date_time         AS end_time,
         CASE
           WHEN e.capacity = -1 THEN -1
         ELSE e.capacity - COALESCE(rsvp_count, 0)
-          END                 AS spots_available
+          END                     AS spots_available
         FROM
           Event e
         INNER JOIN
           User u                
         ON 
           e.host_wallet_address = u.wallet_address
-        LEFT JOIN (
+        LEFT JOIN 
+        (
           SELECT
             event_id,
-            COUNT(*)           AS rsvp_count
+            COUNT(*)              AS rsvp_count
           FROM
             RSVP
           GROUP BY
             event_id
-        )                      AS rsvp
+        )                         AS rsvp
         ON
           e.id = rsvp.event_id
         WHERE
@@ -55,14 +56,14 @@ const getEventDetail = async (eventId) => {
     return await appDataSource.query(
       `
         SELECT 
-          e.name              AS event_name,
-          u.name              AS host_name,
+          e.name                  AS event_name,
+          u.name                  AS host_name,
           e.place,
           e.images,
           e.description,
           e.custom_info,
-          e.start_date_time   AS start_time,
-          e.end_date_time     AS end_time
+          e.start_date_time       AS start_time,
+          e.end_date_time         AS end_time
         FROM
           Event e
         INNER JOIN
@@ -94,7 +95,7 @@ const checkEvent = async (id, eventId) => {
             FROM
               RSVP r
             INNER JOIN
-              Discord_User            AS du 
+              Discord_User              AS du 
             ON
               du.wallet_address = r.wallet_address
             WHERE
