@@ -32,7 +32,6 @@ const postRsvp = async (req, res) => {
       throw error;
     }
 
-    console.log(discordId, eventId);
     await rsvpService.postRsvp(discordId, eventId);
 
     return res.status(200).json({ message: 'posted' });
@@ -42,4 +41,22 @@ const postRsvp = async (req, res) => {
   }
 };
 
-module.exports = { postRsvp, getQrCode };
+const deleteRsvp = async (req, res) => {
+  try {
+    const discordId = req.query.id;
+    const { eventId } = req.query;
+    if (!discordId || !eventId) {
+      const error = new Error('KEY_ERROR');
+      error.statusCode = 400;
+      throw error;
+    }
+
+    await rsvpService.deleteRsvp(discordId, eventId);
+
+    return res.status(200).json({ message: 'deleted' });
+  } catch (err) {
+    log.error(err);
+    return res.status(err.statusCode || 500).json(err.message);
+  }
+};
+module.exports = { postRsvp, getQrCode, deleteRsvp };

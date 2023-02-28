@@ -26,3 +26,50 @@ const createDiscordUser = async (discordId, walletAddress) => {
 };
 
 module.exports = { checkDiscordUser, createDiscordUser };
+
+const updateDiscordUser = async (discordId) => {
+  const oldNFTs = await checkDao.getOldNFTs(discordId);
+
+  const newNFTs = await getNFTs(`${oldNFTs.walletAddress.wa}`);
+
+  const newNFTsMap = newNFTs.ownedNfts.reduce((map, nft) => {
+    const address = nft.contract.address;
+    const tokenId = nft.tokenId;
+    const set = map.get(address) || new Set();
+    set.add(tokenId);
+    map.set(address, set);
+    return map;
+  }, new Map());
+
+  const oldNFTsMap = oldNFTs.oldNFTs.reduce((map, nft) => {
+    const address = nft.sca;
+    const tokenId = nft.ti;
+    const set = map.get(address) || new Set();
+    set.add(tokenId);
+    map.set(address, set);
+    return map;
+  }, new Map());
+
+  const difference = async (map1, map2) => {
+    const result = new Map(map1);
+
+    for (let [key, value] of map2) {
+      if (result.has(key)) {
+        const oldSet = result.get(key);
+        for (let x of value) {
+          oldSet.delete(x);
+        }
+        if (oldSet.size === 0) {
+          result.delete(key);
+        }
+      }
+    }
+
+    return result;
+  };
+  const added = difference(newNFTsMap, oldNFTsMap);
+  const removed = difference(oldNFTsMap, newNFTsMap);
+
+  console.log('added', added);
+  console.log('removed', removed);
+};
