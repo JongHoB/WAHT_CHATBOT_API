@@ -6,23 +6,21 @@ const postRsvp = async (discordId, eventId) => {
     const [userWalletAddress] = await appDataSource.query(
       `
         SELECT 
-          wallet_address AS wa 
+            wallet_address AS wa 
         FROM 
           Discord_User 
         WHERE 
-          discord_id = ?;
+            discord_id=?;
       `,
       [discordId]
     );
 
     return await appDataSource.query(
       `
-        INSERT INTO RSVP (
-          wallet_address,event_id) 
-        VALUES ( 
-          ?,
-          ?
-        )`,
+        INSERT INTO 
+            RSVP 
+            (wallet_address,event_id) 
+        VALUES (?,?);`,
       [userWalletAddress.wa, eventId]
     );
   } catch (err) {
@@ -47,9 +45,11 @@ const getQrCode = async (discordId, eventId) => {
       INNER JOIN 
         Discord_User AS du                ON du.wallet_address=r.wallet_address
       INNER JOIN 
-        Event AS e                        ON e.id=r.event_id
+        Event                             AS e 
+      ON 
+        e.id=r.event_id
       WHERE 
-        r.event_id=?
+        r.event_id = ?
       AND 
         du.discord_id = ?`,
       [eventId, discordId]

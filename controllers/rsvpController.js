@@ -5,7 +5,6 @@ const getQrCode = async (req, res) => {
   try {
     const discordId = req.query.id;
     const { eventId } = req.query;
-    console.log(discordId, eventId);
 
     if (!discordId || !eventId) {
       const error = new Error('KEY_ERROR');
@@ -26,6 +25,7 @@ const postRsvp = async (req, res) => {
   try {
     const discordId = req.query.id;
     const { eventId } = req.query;
+
     if (!discordId || !eventId) {
       const error = new Error('KEY_ERROR');
       error.statusCode = 400;
