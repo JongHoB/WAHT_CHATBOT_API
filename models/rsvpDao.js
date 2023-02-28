@@ -6,11 +6,11 @@ const postRsvp = async (discordId, eventId) => {
     const [userWalletAddress] = await appDataSource.query(
       `
         SELECT 
-          wallet_address        AS wa 
+            wallet_address AS wa 
         FROM 
           Discord_User 
         WHERE 
-          discord_id = ?
+            discord_id=?;
       `,
       [discordId]
     );
@@ -18,16 +18,9 @@ const postRsvp = async (discordId, eventId) => {
     return await appDataSource.query(
       `
         INSERT INTO 
-          RSVP 
-          (
-            wallet_address,
-            event_id
-          ) 
-        VALUES 
-        (
-          ?,
-          ?
-        )`,
+            RSVP 
+            (wallet_address,event_id) 
+        VALUES (?,?);`,
       [userWalletAddress.wa, eventId]
     );
   } catch (err) {
@@ -48,15 +41,13 @@ const getQrCode = async (discordId, eventId) => {
         r.wallet_address                  AS walletAddress,
         CURRENT_TIMESTAMP()               AS timestamp
       FROM 
-        RSVP                              AS r
+        RSVP AS r
       INNER JOIN 
-        Discord_User                      AS du 
-      ON 
-        du.wallet_address=r.wallet_address
+        Discord_User AS du                ON du.wallet_address=r.wallet_address
       INNER JOIN 
         Event                             AS e 
       ON 
-        e.id = r.event_id
+        e.id=r.event_id
       WHERE 
         r.event_id = ?
       AND 
@@ -72,7 +63,40 @@ const getQrCode = async (discordId, eventId) => {
   }
 };
 
+const deleteRsvp = async (discordId, eventId) => {
+  try {
+    const [userWalletAddress] = await appDataSource.query(
+      `
+        SELECT 
+          wallet_address AS wa 
+        FROM 
+          Discord_User 
+        WHERE 
+          discord_id = ?;
+      `,
+      [discordId]
+    );
+    return await appDataSource.query(
+      `
+        DELETE FROM 
+          RSVP 
+        WHERE 
+          wallet_address = ? 
+        AND 
+          event_id = ?
+        `,
+      [userWalletAddress.wa, eventId]
+    );
+  } catch (err) {
+    log.error(err);
+    const error = new Error('DATABASE_ERROR');
+    error.statusCode = 500;
+    throw error;
+  }
+};
+
 module.exports = {
   postRsvp,
   getQrCode,
+  deleteRsvp,
 };

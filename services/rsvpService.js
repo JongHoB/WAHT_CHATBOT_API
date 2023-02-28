@@ -6,13 +6,18 @@ const getQrCode = async (discordId, eventId) => {
 
 const postRsvp = async (discordId, eventId) => {
   try {
-    await rsvpDao.postRsvp(discordId, eventId);
+    return await rsvpDao.postRsvp(discordId, eventId);
   } catch (err) {
     throw err;
   }
 };
 
+const deleteRsvp = async (discordId, eventId) => {
+  return await rsvpDao.deleteRsvp(discordId, eventId);
+};
+
 module.exports = {
   postRsvp,
   getQrCode,
+  deleteRsvp,
 };
