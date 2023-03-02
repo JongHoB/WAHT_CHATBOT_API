@@ -9,7 +9,7 @@ const appDataSource = new DataSource({
   database: process.env.TYPEORM_DATABASE,
   timezone: process.env.TYPEORM_TIMEZONE,
   dateStrings: process.env.TYPEORM_DATESTRINGS,
-  logging: true,
+  logging: process.env.TYPEORM_LOGGING,
 });
 
 module.exports = appDataSource;
