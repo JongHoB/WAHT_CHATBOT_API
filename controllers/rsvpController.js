@@ -21,6 +21,26 @@ const getQrCode = async (req, res) => {
   }
 };
 
+const getRsvpList = async (req, res) => {
+  try {
+    const discordId = req.query.id;
+    const timestamp = req.query.timestamp;
+
+    if (!discordId) {
+      const error = new Error('KEY_ERROR');
+      error.statusCode = 400;
+      throw error;
+    }
+
+    const list = await rsvpService.getRsvpList(discordId, timestamp);
+
+    return res.status(200).json({ list });
+  } catch (err) {
+    log.error(err);
+    return res.status(err.statusCode || 500).json(err.message);
+  }
+};
+
 const postRsvp = async (req, res) => {
   try {
     const discordId = req.query.id;
@@ -59,4 +79,9 @@ const deleteRsvp = async (req, res) => {
     return res.status(err.statusCode || 500).json(err.message);
   }
 };
-module.exports = { postRsvp, getQrCode, deleteRsvp };
+module.exports = {
+  getRsvpList,
+  postRsvp,
+  getQrCode,
+  deleteRsvp,
+};
