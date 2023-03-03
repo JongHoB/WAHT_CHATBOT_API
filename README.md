@@ -19,8 +19,9 @@ These are the instructions for setting up the chatbot project locally. To run th
 2. Enter the name for the application you want to create and click on [Create].
 3. After the application is created, click on 'Bot' on the left-hand side menu, and then click on [Add Bot]. <img width="1422" alt="스크린샷 2023-03-02 오후 12 18 09" src="https://user-images.githubusercontent.com/112741645/222322381-33726162-a572-43f9-9ed9-7d3161ca53fd.png">
 4. Click on [Yes, do it!] to confirm adding the bot.
-5. Copy and save the token of the created bot. This token will be managed in the environment variables of the code later on. <img width="1419" alt="스크린샷 2023-03-02 오후 12 21 15" src="https://user-images.githubusercontent.com/112741645/222323088-e2b560d7-a2d4-4c6a-a6b3-13fd8cf14ca5.png">
-6. Click on OAuth2 on the left-hand side menu, and then copy and save the Client ID. This ID will also be managed in the environment variables of the code later on.<img width="1416" alt="스크린샷 2023-03-02 오후 12 29 02" src="https://user-images.githubusercontent.com/112741645/222323996-bfc93728-4d46-4de7-a45d-0d8dbbd2e479.png">
+5. Make sure to enable all three options (PRESENCE INTENT, SERVER MEMBERS INTENT, MESSAGE CONTENT INTENT) in the Privileged Gateway Intents section.<img width="1426" alt="스크린샷 2023-03-03 오후 12 56 32" src="https://user-images.githubusercontent.com/112741645/222627741-909d6f36-df85-4a9f-920e-186fcd9181d1.png">
+6. Copy and save the token of the created bot. This token will be managed in the environment variables of the code later on. <img width="1419" alt="스크린샷 2023-03-02 오후 12 21 15" src="https://user-images.githubusercontent.com/112741645/222323088-e2b560d7-a2d4-4c6a-a6b3-13fd8cf14ca5.png">
+7. Click on OAuth2 on the left-hand side menu, and then copy and save the Client ID. This ID will also be managed in the environment variables of the code later on.<img width="1416" alt="스크린샷 2023-03-02 오후 12 29 02" src="https://user-images.githubusercontent.com/112741645/222323996-bfc93728-4d46-4de7-a45d-0d8dbbd2e479.png">
 
 ### Connecting the Chatbot to a Discord Server
 1. On the left-hand menu, go to OAuth2 > General and set it up as follows: <img width="1412" alt="스크린샷 2023-03-02 오후 12 39 36" src="https://user-images.githubusercontent.com/112741645/222325214-dea95dcd-51cb-4cca-a873-e278f5b467b4.png">
