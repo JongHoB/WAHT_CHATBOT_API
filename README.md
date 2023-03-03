@@ -71,11 +71,10 @@ npm install
 ```
 
 ### Usage Guide
-1. Start both the chatbot and API by running `npm start`.
-2. Once both are running, check that the chatbot is online in your Discord server.
-3. Type a slash command in the chat, such as `/ping`, to activate the bot and trigger the command.
-4. The following slash commands can be used in this chatbot:
-<img width="220" alt="스크린샷 2023-03-02 오후 1 15 05" src="https://user-images.githubusercontent.com/112741645/222330038-8f209acf-c0da-420e-9e2d-859acb7e74d4.png">
-
-
+1. Before starting the chatbot, register slash commands in discord channel by running `node deploy-commands.js`.(If you want to erase all the registered commands, run `node delete-all-commands.js`)
+3. Start both the chatbot and API by running `npm start`.
+4. Once both are running, check that the chatbot is online in your Discord server.
+5. Type a slash command in the chat, such as `/ping`, to activate the bot and trigger the command.
+6. The following slash commands can be used in this chatbot:
+<img width="209" alt="image" src="https://user-images.githubusercontent.com/78012131/222347718-95582c28-e4c2-47cc-8117-87bdf550f009.png">
 
