@@ -35,6 +35,24 @@ const discordNFTs = [
     smart_contract_address: 'testSmartContractAddress3',
     token_id: 32,
   },
+  {
+    id: 7,
+    user_wallet_address: 'testDiscordWalletAddress9',
+    smart_contract_address: 'testSmartContractAddress7',
+    token_id: 1,
+  },
+  {
+    id: 8,
+    user_wallet_address: 'testDiscordWalletAddress9',
+    smart_contract_address: 'testSmartContractAddress8',
+    token_id: 1,
+  },
+  {
+    id: 9,
+    user_wallet_address: 'testDiscordWalletAddress9',
+    smart_contract_address: 'testSmartContractAddress9',
+    token_id: 1,
+  },
 ];
 
 module.exports = { discordNFTs };

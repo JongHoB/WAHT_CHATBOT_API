@@ -54,13 +54,31 @@ describe('EVENT TEST', () => {
       expect(response.status).toEqual(400);
       expect(response.body).toEqual('KEY_ERROR');
     });
+
+    test('FAILED: USER DOES NOT OWN ANY NFTS', async () => {
+      const response = await request(app)
+        .get('/events/list')
+        .query({ id: 'testDiscordId3', timestamp: '2020-01-01 00:00:00' });
+
+      expect(response.status).toEqual(404);
+      expect(response.body).toEqual('NOT_FOUND');
+    });
+
+    test('FAILED: THERE ARE NO EVENT THAT THE USER CAN ATTEND', async () => {
+      const response = await request(app)
+        .get('/events/list')
+        .query({ id: 'testDiscordId9', timestamp: '2020-01-01 00:00:00' });
+
+      expect(response.status).toEqual(404);
+      expect(response.body).toEqual('NOT_FOUND');
+    });
   });
 
   describe('GET: Event details', () => {
     test('SUCCESS: GET EVENT DETAIL', async () => {
       const response = await request(app)
         .get('/events/detail')
-        .query({ eventId: 1, id: 'testDiscordId1' });
+        .query({ id: 'testDiscordId1', eventId: 1 });
 
       expect(response.status).toEqual(200);
       expect(response.body).toEqual(eventDetail);
@@ -73,6 +91,15 @@ describe('EVENT TEST', () => {
 
       expect(response.status).toEqual(400);
       expect(response.body).toEqual('KEY_ERROR');
+    });
+
+    test('FAILED: WRONG EVENT ID', async () => {
+      const response = await request(app)
+        .get('/events/detail')
+        .query({ id: 'testDiscordId1', eventId: 11 });
+
+      expect(response.status).toEqual(404);
+      expect(response.body).toEqual('NOT_FOUND');
     });
   });
 });
