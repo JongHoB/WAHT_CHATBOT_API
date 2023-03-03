@@ -34,6 +34,12 @@ const getRsvpList = async (req, res) => {
 
     const list = await rsvpService.getRsvpList(discordId, timestamp);
 
+    if (list.length == 0) {
+      const error = new Error('NOT_FOUND');
+      error.statusCode = 404;
+      throw error;
+    }
+
     return res.status(200).json({ list });
   } catch (err) {
     log.error(err);
