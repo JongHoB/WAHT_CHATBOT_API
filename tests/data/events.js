@@ -8,15 +8,13 @@ const events = [
     nft_project_name: 'testEvent1',
     place: 'testPlace',
     capacity: 5,
-    images: ['testIamge1', 'testImage2', 'testImage3'],
+    images: "['testIamge1', 'testImage2', 'testImage3']",
     description: 'testDescription',
-    timeline: [{ start_time: '00:00', end_time: '12:00' }],
-    custom_info: [
-      { title: 'testTitle1', body: 'testBody1' },
-      { title: 'testTitle2', body: 'testBody2' },
-    ],
-    start_date_time: '2023-01-01 00:00:00',
-    end_date_time: '2023-01-01 12:00:00',
+    timeline: "[{ start_time: '00:00', end_time: '12:00' }]",
+    custom_info:
+      "[{ title: 'testTitle1', body: 'testBody1' }, { title: 'testTitle2', body: 'testBody2' }]",
+    start_date_time: '2024-01-01 00:00:00',
+    end_date_time: '2024-01-01 12:00:00',
   },
   {
     id: 2,
@@ -27,15 +25,13 @@ const events = [
     nft_project_name: 'testEvent2',
     place: 'testPlace',
     capacity: -1,
-    images: ['testIamge1', 'testImage2', 'testImage3'],
+    images: "['testIamge1', 'testImage2', 'testImage3']",
     description: 'testDescription',
-    timeline: [{ start_time: '00:00', end_time: '12:00' }],
-    custom_info: [
-      { title: 'testTitle1', body: 'testBody1' },
-      { title: 'testTitle2', body: 'testBody2' },
-    ],
-    start_date_time: '2023-02-02 00:00:00',
-    end_date_time: '2023-02-02 12:00:00',
+    timeline: "[{ start_time: '00:00', end_time: '12:00' }]",
+    custom_info:
+      "[{ title: 'testTitle1', body: 'testBody1' }, { title: 'testTitle2', body: 'testBody2' }]",
+    start_date_time: '2024-02-02 00:00:00',
+    end_date_time: '2024-02-02 12:00:00',
   },
   {
     id: 3,
@@ -46,15 +42,13 @@ const events = [
     nft_project_name: 'testEvent3',
     place: 'testPlace',
     capacity: 5,
-    images: ['testIamge1', 'testImage2', 'testImage3'],
+    images: "['testIamge1', 'testImage2', 'testImage3']",
     description: 'testDescription',
-    timeline: [{ start_time: '00:00', end_time: '12:00' }],
-    custom_info: [
-      { title: 'testTitle1', body: 'testBody1' },
-      { title: 'testTitle2', body: 'testBody2' },
-    ],
-    start_date_time: '2023-03-03 00:00:00',
-    end_date_time: '2023-03-03 12:00:00',
+    timeline: "[{ start_time: '00:00', end_time: '12:00' }]",
+    custom_info:
+      "[{ title: 'testTitle1', body: 'testBody1' }, { title: 'testTitle2', body: 'testBody2' }]",
+    start_date_time: '2024-03-03 00:00:00',
+    end_date_time: '2024-03-03 12:00:00',
   },
   {
     // 이미 끝난 이벤트라 이벤트 리스트에 노출되지 않을 이벤트
@@ -66,13 +60,11 @@ const events = [
     nft_project_name: 'testEvent3',
     place: 'testPlace',
     capacity: 5,
-    images: ['testIamge1', 'testImage2', 'testImage3'],
+    images: "['testIamge1', 'testImage2', 'testImage3']",
     description: 'testDescription',
-    timeline: [{ start_time: '00:00', end_time: '12:00' }],
-    custom_info: [
-      { title: 'testTitle1', body: 'testBody1' },
-      { title: 'testTitle2', body: 'testBody2' },
-    ],
+    timeline: "[{ start_time: '00:00', end_time: '12:00' }]",
+    custom_info:
+      "[{ title: 'testTitle1', body: 'testBody1' }, { title: 'testTitle2', body: 'testBody2' }]",
     start_date_time: '2020-01-01 00:00:00',
     end_date_time: '2020-01-01 12:00:00',
   },
@@ -86,15 +78,13 @@ const events = [
     nft_project_name: 'testEvent3',
     place: 'testPlace',
     capacity: 1,
-    images: ['testIamge1', 'testImage2', 'testImage3'],
+    images: "['testIamge1', 'testImage2', 'testImage3']",
     description: 'testDescription',
-    timeline: [{ start_time: '00:00', end_time: '12:00' }],
-    custom_info: [
-      { title: 'testTitle1', body: 'testBody1' },
-      { title: 'testTitle2', body: 'testBody2' },
-    ],
-    start_date_time: '2023-04-04 00:00:00',
-    end_date_time: '2023-04-04 12:00:00',
+    timeline: "[{ start_time: '00:00', end_time: '12:00' }]",
+    custom_info:
+      "[{ title: 'testTitle1', body: 'testBody1' }, { title: 'testTitle2', body: 'testBody2' }]",
+    start_date_time: '2024-04-04 00:00:00',
+    end_date_time: '2024-04-04 12:00:00',
   },
 ];
 

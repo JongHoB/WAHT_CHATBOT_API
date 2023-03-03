@@ -9,7 +9,7 @@ const createRsvps = (rsvpList) => {
 
   return appDataSource.query(
     `
-      INSERT INTO Discord_User 
+      INSERT INTO RSVP 
         (
           wallet_address,
           event_id
