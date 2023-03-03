@@ -6,6 +6,12 @@ const getEventList = async (discordId, timestamp) => {
     const getNFTs = await checkDao.getSmartContractAddresses(discordId);
     const smartContractAddresses = getNFTs.map((x) => x.sca);
 
+    if (smartContractAddresses.length == 0) {
+      const error = new Error('NOT_FOUND');
+      error.statusCode = 404;
+      throw error;
+    }
+
     const result = await eventDao.getEventList(
       smartContractAddresses,
       timestamp
