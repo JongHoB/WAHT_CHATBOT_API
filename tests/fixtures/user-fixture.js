@@ -16,7 +16,7 @@ const createUsers = (userList) => {
           wallet_type
         ) 
       VALUES ?
-      `,
+    `,
     [userData]
   );
 };
