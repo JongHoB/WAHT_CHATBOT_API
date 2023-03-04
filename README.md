@@ -65,14 +65,14 @@ WAHT_IMAGE=IMAGE_URL
 
 
 ### Installation Guide
-**Node.js 16.9.0 or newer is required.**
+**Node.js 16.9.0 or latest version is required.**
 Use the package manager npm to install.
 ```
 npm install
 ```
 
 ### Usage Guide
-1. Before starting the chatbot, register slash commands in discord channel by running `node deploy-commands.js`.(If you want to erase all the registered commands, run `node delete-all-commands.js`)
+1. Before starting the chatbot, register slash commands in discord channel by running `node deploy-commands.js`. (This process only needs 1 time.) (If you want to erase all the registered commands, run `node delete-all-commands.js`)
 3. Start both the chatbot and API by running `npm start`.
 4. Once both are running, check that the chatbot is online in your Discord server.
 5. Type a slash command in the chat, such as `/ping`, to activate the bot and trigger the command.
