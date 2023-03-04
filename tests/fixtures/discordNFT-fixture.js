@@ -13,10 +13,12 @@ const createDiscordNFTs = (discordNFTList) => {
 
     return appDataSource.query(
       `
-        INSERT INTO Discord_User 
+        INSERT INTO Discord_NFT 
           (
-            discord_id,
-            wallet_address
+            id,
+            user_wallet_address,
+            smart_contract_address,
+            token_id
           )
         VALUES ? 
       `,
