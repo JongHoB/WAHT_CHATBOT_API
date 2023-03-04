@@ -73,8 +73,6 @@ const getRsvpList = async (discordId, timestamp) => {
       [walletAddress.wa, timestamp]
     );
 
-    console.log(list);
-
     return list;
   } catch (err) {
     log.error(err);
