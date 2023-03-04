@@ -1,12 +1,12 @@
-const axios = require('axios');
 const request = require('supertest');
 
 const { createApp } = require('../app');
 const appDataSource = require('../models/dataSource');
 const discordUserFixture = require('./fixtures/discordUser-fixture');
 const testDiscordUserData = require('./data/discordUsers');
+const alchemyModule = require('../utils/alchemy');
 
-jest.mock('axios');
+jest.mock('../utils/alchemy');
 
 describe('CHECK TEST', () => {
   let app;
@@ -54,26 +54,23 @@ describe('CHECK TEST', () => {
   });
 
   describe('POST: Discord User registration and get NFTs', () => {
-    test('SUCCESS: USER CHECKED', async () => {
-      // 이부분 해결 중
-      axios.get = jest.fn().mockReturnValue({
-        data: {
-          ownedNfts: [
-            {
-              contract: { address: 'testdAddress1' },
-              tokenId: 1,
-            },
-            {
-              contract: { address: 'testdAddress2' },
-              tokenId: 1,
-            },
-            {
-              contract: { address: 'testdAddress3' },
-              tokenId: 1,
-            },
-          ],
-          totalCount: 3,
-        },
+    test('SUCCESS: USER CREATED', async () => {
+      alchemyModule.getNFTs.mockResolvedValue({
+        ownedNfts: [
+          {
+            contract: { address: 'testdAddress1' },
+            tokenId: 1,
+          },
+          {
+            contract: { address: 'testdAddress2' },
+            tokenId: 1,
+          },
+          {
+            contract: { address: 'testdAddress3' },
+            tokenId: 1,
+          },
+        ],
+        totalCount: 3,
       });
 
       const response = await request(app)
@@ -102,5 +99,40 @@ describe('CHECK TEST', () => {
     });
   });
 
-  describe(`PATCH: Update the user's NFT record.`, () => {});
+  describe(`PATCH: Update the user's NFT record.`, () => {
+    test('SUCCESS: NFT RECODE UPDATED', async () => {
+      alchemyModule.getNFTs.mockResolvedValue({
+        ownedNfts: [
+          {
+            contract: { address: 'testdAddress1' },
+            tokenId: 2,
+          },
+          {
+            contract: { address: 'testdAddress2' },
+            tokenId: 2,
+          },
+          {
+            contract: { address: 'testdAddress3' },
+            tokenId: 1,
+          },
+        ],
+        totalCount: 3,
+      });
+
+      const response = await request(app)
+        .patch('/check')
+        .query({ id: 'testDiscordId0' })
+        .send({ walletAddress: 'testDiscordWalletAddress0' });
+
+      expect(response.status).toEqual(200);
+      expect(response.body).toEqual({ message: 'Discord User Updated!' });
+    });
+
+    test('FAILED: MISSING DISCORD ID', async () => {
+      const response = await request(app).post('/check');
+
+      expect(response.status).toEqual(400);
+      expect(response.body).toEqual('KEY_ERROR');
+    });
+  });
 });
