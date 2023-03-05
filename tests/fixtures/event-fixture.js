@@ -20,31 +20,31 @@ const createEvents = (eventList) => {
       event.start_date_time,
       event.end_date_time,
     ]);
-
-    return appDataSource.query(
-      `
-        INSERT INTO Event
-          (
-            id,
-            name,
-            host_wallet_address,
-            host_nft_id,
-            smart_contract_address,
-            nft_project_name,
-            place,
-            capacity,
-            images,
-            description,
-            timeline,
-            custom_info,
-            start_date_time,
-            end_date_time
-          )
-        VALUES ? 
-      `,
-      [eventData]
-    );
   }
+
+  return appDataSource.query(
+    `
+      INSERT INTO Event
+        (
+          id,
+          name,
+          host_wallet_address,
+          host_nft_id,
+          smart_contract_address,
+          nft_project_name,
+          place,
+          capacity,
+          images,
+          description,
+          timeline,
+          custom_info,
+          start_date_time,
+          end_date_time
+        )
+      VALUES ? 
+    `,
+    [eventData]
+  );
 };
 
 module.exports = { createEvents };
