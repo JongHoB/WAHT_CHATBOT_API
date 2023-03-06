@@ -15,9 +15,8 @@ const createDiscordUser = async (discordId, walletAddress) => {
     info = nfts.ownedNfts.map((x) => {
       return [walletAddress, x.contract.address, x.tokenId];
     });
+    await checkDao.createDiscordNFT(info);
   }
-
-  await checkDao.createDiscordNFT(info);
 
   return;
 };
