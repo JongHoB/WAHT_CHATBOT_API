@@ -2,7 +2,7 @@
 
 ## About
 This is a WAHT Discord chatbot project developed by Metabon. The chatbot is designed to allow users to check and RSVP for events using Discord, even if they do not use the waht.app application.
-This is built using Node.js, Express.js, Discord.js, etc. To use this Chatbot, both the [API module](https://github.com/vinoverse/waht-chatbot-api-v2) and the [Chatbot module](https://github.com/vinoverse/waht-chatbot-v2) are required.
+This is built using Node.js, Express.js, Discord.js, etc. To use this Chatbot, both the [API module](https://github.com/JongHoB/WAHT_CHATBOT_API) and the [Chatbot module](https://github.com/JongHoB/WAHT_CHATBOT) are required.
 
 The chatbot provides the following key features(slash commands):
 
